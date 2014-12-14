@@ -1,0 +1,30 @@
+{
+  "name": "kerstgala-rest",
+  "version": "0.0.1",
+  "author": "Michiel Dral <michiel@sunsethosting.co.uk>",
+  "description": "Kerstgala rest server!",
+  "repository": {
+    "type": "git",
+    "url": "https://Dralletje@bitbucket.org/Dralletje/terraform.git"
+  },
+  "keywords": [
+    "kerstgala"
+  ],
+  "dependencies": {
+    "bluebird": "~0.11.5-1",
+    "debug": "^2.0.0",
+    "mysql": "^2.5.3",
+    "sequelize": "^2.0.0-rc3",
+    "sleeprest": "*"
+  },
+  "devDependencies": {
+    "coffee-script": "*",
+    "gulp": "^3.8.8",
+    "gulp-coffee": "^2.2.0",
+    "gulp-plumber": "^0.6.5"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10"
+  }
+}
