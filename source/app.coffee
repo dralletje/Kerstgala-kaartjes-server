@@ -40,8 +40,10 @@ server.resource('kaartje')
     tag: tagId
     rijdmee: rijdmee
 
-  message: 'Done!'
-
+  .then ->
+    message: 'Done!'
+  .catch Sequelize.UniqueConstraintError, ->
+    throw new Error 'HTTP:409 Kaartje al geregistreerd'
 
 server.listen '8000'
 console.warn 'Hasta la viesta!'
