@@ -92,12 +92,25 @@ server.resource('nummer/:nummer')
 
   rijdmee = false
   {nummer} = req.params
+  # Look for number
   Nummers.findOne(where: leerlingnummer: nummer).then (record) ->
     if not record?
       throw new Error 'HTTP:404 Nummer not found :\'('
 
+  # If not, look for number in the people who paid
+  # With NFC
+  .catch (err) ->
+    NFC.findOne(where: nummer: nummer).then (record) ->
+      console.log record.CSN.toLowerCase()
+      User.findOne(where: tag: record.CSN.toLowerCase())
+    .then (record) ->
+      console.log record.values
+      leerlingnummer: nummer
+      rijdmee: record.rijdmee
+
+  .then (record) ->
     rijdmee = record.rijdmee
-    Leerlingen.findOne(where: nummer: record.leerlingnummer)
+    Leerlingen.findOne(where: nummer: nummer)
 
   .then (record) ->
     leerling2object(record, rijdmee)
@@ -114,8 +127,14 @@ server.resource('tag/:tag')
     if not record?
       throw new Error 'HTTP:404 Tag not found :\'('
     rijdmee = record.rijdmee
-
     NFC.findOne(where: CSN: tag.toUpperCase())
+
+  .catch ->
+    NFC.findOne(where: CSN: tag.toUpperCase()).then (record) ->
+      Nummers.findOne(where: leerlingnummer: record.nummer)
+    .then (record) ->
+      rijdmee: record.rijdmee
+      nummer: record.leerlingnummer
 
   .then (record) ->
     if not record?
